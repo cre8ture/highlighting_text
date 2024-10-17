@@ -1,0 +1,351 @@
+@font-face {
+    font-family: "Geist Sans";
+    src: url("https://assets.codepen.io/605876/GeistVF.ttf") format("truetype");
+  }
+  
+  *,
+  *:after,
+  *:before {
+      box-sizing: border-box;
+  }
+  
+  body {
+      min-height: 100vh;
+      font-weight: 80;
+      padding: 0 4rem 0 1rem;
+      background: hsl(0 0% 98%);
+      color: hsl(0 0% 6%);
+      font-family:  "Geist Sans", "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+  }
+  
+  body::after {
+      --size: 80px;
+      --thickness: 2px;
+      content: "";
+      position: fixed;
+      height: 100vh;
+      width: 100vw;
+      pointer-events: none;
+      background:
+          linear-gradient(transparent 0 calc(var(--size) - var(--thickness)), currentColor calc(var(--size) - var(--thickness)) var(--size)) 50% 50% / var(--size) var(--size),
+          linear-gradient(90deg, transparent 0 calc(var(--size) - var(--thickness)), currentColor calc(var(--size) - var(--thickness)) var(--size)) 50% 50% / var(--size) var(--size);
+      mask: linear-gradient(-35deg, transparent 50%, white);
+      top: 0;
+      left: 0;
+      z-index: -1;
+      opacity: 0.25;
+  }
+  
+  .dark body {
+      background: hsl(0 0% 6%);
+      color: hsl(0 0% 96%);
+  }
+  
+  mark {
+      color: hsl(0 0% 6%);
+  }
+  
+  .dark mark {
+      color: hsl(0 0% 98%);
+  }
+  
+  section {
+      margin-bottom: 2rem;
+  }
+  
+  .dark header svg path {
+      fill: white;
+  }
+  
+  * {
+    box-sizing: border-box;
+  }
+  
+  :where(h1, h2) {
+      font-weight: 120;
+  }
+  
+  code {
+      max-width: 100%;
+      overflow: auto;
+  }
+  
+  header {
+      height: 50vmin;
+      min-height: 200px;
+      width: 40ch;
+    max-width: 100%;
+    margin: 0 auto;
+    font-size: 1.25rem;
+    display: grid;
+    align-content: center;
+  }
+  
+  header svg {
+      width: 35%;
+      filter: drop-shadow(0 0 20px hsl(0 0% 50% / 0.75));
+  }
+  
+  main {
+      padding: 0 1rem;
+    width: 40ch;
+    max-width: 100%;
+    margin: 0 auto;
+    font-size: 1.25rem;
+    padding: 0 0 50vmin 0;
+  }
+  
+  .toggle-dark-mode {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      width: 48px;
+      aspect-ratio: 1;
+      padding: 0;
+      border-radius: 12px;
+      border: 0;
+      background: transparent;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+  }
+  
+  [aria-pressed=true] svg path:last-of-type,
+  [aria-pressed=false] svg path:first-of-type {
+      display: none;
+  }
+  
+  .toggle-dark-mode svg {
+      width: 65%;
+  }
+  
+  mark {
+      --lightness: 80%;
+    --highlighted: 1;
+    --highlight: hsl(var(--hue, 45) 80% var(--lightness));
+    background: transparent;
+  }
+  
+  @supports (animation-timeline: view()) {
+    mark {
+      --highlighted: 0;
+      animation: highlight steps(1) both;
+      animation-timeline: view();
+      animation-range: entry 100% cover 10%;
+    }
+  }
+  
+  .dark mark {
+      --lightness: 35%;
+  }
+  
+  mark span {
+    background: linear-gradient(120deg, var(--highlight, lightblue) 50%, transparent 50%) 110% 0 / 200% 100% no-repeat;
+    background-position: calc((1 - var(--highlighted)) * 110%) 0;
+    transition: background-position 1s;
+  }
+  p, li {
+    position: relative;
+  }
+  
+  a {
+      color: hsl(212 100% 50%);
+      text-decoration: none;
+  }
+  
+  a:is(:hover, :focus-visible) {
+      text-decoration: underline;
+      text-underline-offset: 6px;
+  }
+  
+  hr {
+      margin: 2rem auto;
+  }
+  
+  hr + p {
+      text-align: center;
+  }
+  
+  mark::after {
+    content: attr(data-author);
+    display: grid;
+    place-items: center;
+    font-variant-numeric: tabular-nums;
+    font-weight: bold;
+    position: absolute;
+    width: 32px;
+    aspect-ratio: 1;
+    border-radius: 12px;
+    background: var(--highlight);
+    font-weight: 80;
+    top: 0;
+    left: 100%;
+    translate: 50% 0;
+    font-size: 0.875rem;
+    scale: var(--highlighted);
+    transition: scale 0.2s;
+    cursor: pointer; 
+  }
+  
+  @keyframes highlight {
+    to {
+      --highlighted: 1;
+    }
+  }
+  
+  ::view-transition-new(root) {
+      animation: grow 1s;
+  }
+  ::view-transition-old(root) {
+      animation: none;
+  }
+  
+
+  .chat-widget {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .chat-widget input,
+  .chat-widget button {
+    margin-bottom: 0.5rem;
+  }
+
+
+  @keyframes grow {
+      0% {
+          clip-path: polygon(50vmax 50vmax, 50vmax 50vmax, 50vmax 50vmax);
+      }
+      100% {
+          clip-path: polygon(50vmax -100vmax, -100vmax 200vmax, 200vmax 200vmax);
+      }
+  }
+
+  #text-selection-menu {
+    position: fixed; /* Instead of static, making left and top work */
+    display: none; /* Keep it hidden initially */
+    z-index: 1000; /* Ensure it's above most other elements */
+    /* Add your additional styling here */
+      top: 50%;
+      left: 50%;
+      transform: translate(-45%, -50%);
+      /* Adjust these values to position the menu where you want it relative to the viewport */
+      
+      background-color:transparent; /* White background color */
+      border-radius: 4px; /* Rounded corners */
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); /* Subtle shadow */
+      padding: 8px; /* Inner padding */
+      
+      font-family: sans-serif; /* Choose your preferred font family */
+    }
+    
+    #explain-btn, #quiz-btn {
+      background-color: white; /* Transparent background for buttons */
+      color: #000; /* Black text color */
+      border: none; /* Remove borders */
+      padding: 8px 12px; /* Button padding */
+      margin: 0 4px; /* Margin between buttons */
+      cursor: pointer; /* Indicate clickable buttons */
+      
+      font-size: 14px; /* Font size for buttons */
+      font-weight: bold; /* Bold text for buttons */
+      border-radius: 10px;
+      border: solid 1px #000;
+      transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out; /* Smooth hover transitions */
+    }
+    
+    button:hover {
+      background-color: rgba(255, 255, 0, 0.5); /* Fluorescent yellow with high opacity */
+      color: #333; /* Text color for the hover effect */
+    }
+    
+
+
+    @keyframes fadeIn_menu {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    @keyframes fadeOut_menu {
+      from { opacity: 1; }
+      to { opacity: 0; }
+    }
+    
+    .fade-in_menu {
+      animation: fadeIn_menu 1s forwards;
+    }
+    
+    .fade-out_menu {
+      animation: fadeOut_menu 1s forwards;
+    }
+
+/* Quiz Container */
+#quiz {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  padding: 2rem;
+  max-width: 400px;
+  display: none; /* Initially hidden */
+}
+
+#quiz.show {
+  display: flex;
+}
+
+/* Rest of your CSS */
+
+/* Quiz Card */
+.quiz-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Card Content */
+.card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Question */
+.card-content h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+/* Answer Options */
+.answer-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.answer-option input[type="radio"] {
+  margin: 0;
+}
+
+/* Next Button */
+#next-quiz-btn {
+  align-self: flex-end;
+  padding: 0.5rem 1rem;
+  background-color: white;
+  border-radius: 10px;
+  border: 1px solid black;
+  color: black;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+#next-quiz-btn:hover {
+  background-color: black;
+  color: white;
+}
